@@ -2,25 +2,25 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity,Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import * as Icons from "react-native-heroicons/solid";
-
+import * as PARAMS from "./const";
 
 const App = () => {
   const [selectedValue, setSelectedValue] = useState('Dow Jones');
   const today = new Date().toLocaleDateString();
   const callApi = (value,trade) => {
 
-    const strTrade = '6192717234389,'+trade+',US30,risk=1,tp=20,sl=20,betrigger=15,beoffset=0'
+    const strTrade = PARAMS.ACCOUNT_PINECONNECTOR + ',' + trade + ',' + PARAMS.DOW_MFF + ',risk=1,tp=20,sl=20,betrigger=15,beoffset=0'
 
-    Alert.alert('Confirmer le Trade', '1% de risque '+trade+' US30', [
+    Alert.alert('Confirmer le Trade', '1% de risque '+trade+' '+PARAMS.DOW_MFF, [
       {
         text: 'Cancel',
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
       {text: 'OK', onPress: () => {
-        console.log('Appel API avec la valeur:', value + " " + trade)
+        console.log('Appel API avec la valeur:', value + " " + trade + " - " + PARAMS.URL_PINECONNECTOR)
         console.log(strTrade)
-        fetch("https://pineconnector.net/webhook/", {
+        fetch(PARAMS.URL_PINECONNECTOR, {
           method: 'POST',
           body: strTrade,
           headers: {'Content-Type': strTrade }
